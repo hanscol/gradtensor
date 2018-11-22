@@ -17,7 +17,7 @@ RUN apt-get update && \
 COPY bin /opt/gradtensor
 
 # Create input/output directories for binding
-mkdir /INPUTS && mkdir /OUTPUTS
+RUN mkdir /INPUTS && mkdir /OUTPUTS
 
 # Default command shows usage for the two modules
 CMD /bin/bash usage.sh
