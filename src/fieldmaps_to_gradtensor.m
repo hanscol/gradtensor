@@ -29,3 +29,7 @@ refradius = 250;
 	refradius, ...
 	image_radius ...
 	);
+
+if isdeployed()
+	exit()
+end

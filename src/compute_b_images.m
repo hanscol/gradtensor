@@ -1,8 +1,9 @@
-function [adjbvec_files, adjbval_files] = compute_b_images( ...
-    L_file, ...
+function [adjbvec_files,adjbval_files] = compute_b_images( ...
+	Limg_file, ...
+	refimg_file, ...
 	bval_file, ...
 	bvec_file, ...
-    output_dir ...
+	out_dir ...
 	)
 % COMPUTE_B_IMAGES  Adjust B values for gradient coil nonlinearity
 %
@@ -15,21 +16,32 @@ function [adjbvec_files, adjbval_files] = compute_b_images( ...
 %    <refimg>_bval_*.nii    B value image for each diffusion direction
 %    <refimg>_bvec_*.nii    B vector image for each diffusion direction
 
-% Load reference image geometry and L_matrix
-Vref = spm_vol(L_file);
-L_vecs = spm_read_vols(Vref);
-Vref = Vref(1);
+% Resample grad tensor to DTI image space
+flags = struct( ...
+	'mask',true, ...
+	'mean',false, ...
+	'interp',1, ...
+	'which',1, ...
+	'wrap',[0 0 0], ...
+	'prefix','r' ...
+	);
+spm_reslice({refimg_file; Limg_file},flags);
+[~,n,e] = fileparts(Limg_file);
+rLimg_file = fullfile(out_dir,['r' n e]);
 
-L = zeros(3,3, size(L_vecs,1).*size(L_vecs,2).*size(L_vecs,3));
-Lxx = L_vecs(:,:,:,1); L(1,1,:) = Lxx(:);
-Lxy = L_vecs(:,:,:,2); L(1,1,:) = Lxy(:);
-Lxz = L_vecs(:,:,:,3); L(1,1,:) = Lxz(:);
-Lyx = L_vecs(:,:,:,4); L(1,1,:) = Lyx(:);
-Lyy = L_vecs(:,:,:,5); L(1,1,:) = Lyy(:);
-Lyz = L_vecs(:,:,:,6); L(1,1,:) = Lyz(:);
-Lzx = L_vecs(:,:,:,7); L(1,1,:) = Lzx(:);
-Lzy = L_vecs(:,:,:,8); L(1,1,:) = Lzy(:);
-Lzz = L_vecs(:,:,:,9); L(1,1,:) = Lzz(:);
+VL = spm_vol(rLimg_file);
+L = spm_read_vols(VL);
+
+L = zeros(3,3, size(L,1).*size(L,2).*size(L,3));
+Lxx = L(:,:,:,1); L(1,1,:) = Lxx(:);
+Lxy = L(:,:,:,2); L(1,1,:) = Lxy(:);
+Lxz = L(:,:,:,3); L(1,1,:) = Lxz(:);
+Lyx = L(:,:,:,4); L(1,1,:) = Lyx(:);
+Lyy = L(:,:,:,5); L(1,1,:) = Lyy(:);
+Lyz = L(:,:,:,6); L(1,1,:) = Lyz(:);
+Lzx = L(:,:,:,7); L(1,1,:) = Lzx(:);
+Lzy = L(:,:,:,8); L(1,1,:) = Lzy(:);
+Lzz = L(:,:,:,9); L(1,1,:) = Lzz(:);
 
 
 nv = size(L,3);
@@ -54,11 +66,11 @@ adjbval = nan(nv,1,nb);
 
 
 for v = 1:nv
-
+	
 	% Most simply, the adjusted bvec is simply L * bvec. Here we are
 	% operating in the image space.
 	ab = L(:,:,v) * bvec;
-
+	
 	% The bvecs were length 1 before adjustment, so now compute the length
 	% change and adjust bvals accordingly. NOTE: adjust bval by the square
 	% of the length, because the b value has a G^2 term but the vector
@@ -70,7 +82,7 @@ for v = 1:nv
 	% adjustment we just made. Skip cases where b=0.
 	len = sqrt(sum(ab.^2));
 	lenkeeps = len~=0;
-	ab(:,lenkeeps) = ab(:,lenkeeps) ./ repmat(len(lenkeeps),3,1);	
+	ab(:,lenkeeps) = ab(:,lenkeeps) ./ repmat(len(lenkeeps),3,1);
 	adjbvec(v,:,:) = ab;
 	
 end
@@ -84,31 +96,29 @@ end
 adjbvec_files = [];
 for b = 1:nb
 	
-	Vout = rmfield(Vref,{'pinfo','private'});
+	Vout = rmfield(VL,{'pinfo','private'});
 	Vout.dt(1) = spm_type('float32');
 	Vout.descrip = 'Adjusted bvec';
-	%[p,n] = fileparts(Vout.fname);
-	adjbvec_files{b,1} = fullfile(output_dir,sprintf('bvec_%04d.nii',b));
+	adjbvec_files{b,1} = fullfile(out_dir,sprintf('bvec_%04d.nii',b));
 	Vout.fname = adjbvec_files{b,1};
 	
 	for n = 1:3
 		Vout.n(1) = n;
-		spm_write_vol(Vout,reshape(adjbvec(:,n,b),Vref.dim));
+		spm_write_vol(Vout,reshape(adjbvec(:,n,b),VL.dim));
+		system(['gzip ' Vout.fname]);
 	end
-
-end
 	
+end
+
 % Save bval image to file
 adjbval_files = [];
 for b = 1:nb
-	
-	Vout = rmfield(Vref,{'pinfo','private'});
+	Vout = rmfield(VL,{'pinfo','private'});
 	Vout.dt(1) = spm_type('float32');
 	Vout.descrip = 'Adjusted bval';
-	%[p,n] = fileparts(Vout.fname);
-	adjbval_files{b,1} = fullfile(output_dir,sprintf('bval_%04d.nii',b));
+	adjbval_files{b,1} = fullfile(out_dir,sprintf('bval_%04d.nii',b));
 	Vout.fname = adjbval_files{b,1};
-	spm_write_vol(Vout,reshape(adjbval(:,b),Vref.dim));
+	spm_write_vol(Vout,reshape(adjbval(:,b),VL.dim));
+	system(['gzip ' Vout.fname]);
 end
 
-exit()
