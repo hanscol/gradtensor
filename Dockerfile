@@ -13,11 +13,12 @@ RUN apt-get update && apt-get install -y wget unzip && \
 RUN apt-get update && \
     apt-get install -y openjdk-8-jre
 
-# Copy the compiled matlab that runs our processing
-COPY bin /opt/gradtensor
+# Copy the files we need
+RUN mkdir /opt/gradtensor
+COPY bin usage.sh LICENSE.txt /opt/gradtensor
 
 # Create input/output directories for binding
 RUN mkdir /INPUTS && mkdir /OUTPUTS
 
 # Default command shows usage for the two modules
-CMD /bin/bash usage.sh
+CMD /bin/bash /opt/gradtensor/usage.sh
