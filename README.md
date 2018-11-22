@@ -10,6 +10,6 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5990280/
 
 
 Contributors:
-Baxter P. Rogers (code)
-Colin B. Hansen (code)
+Baxter P. Rogers (code), 
+Colin B. Hansen (code), 
 Alan S. Barnett (testing/debugging)
