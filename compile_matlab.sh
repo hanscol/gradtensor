@@ -18,6 +18,7 @@ chmod go+rx bin/run_fieldmaps_to_gradtensor.sh
 # Same process for the other tool
 mcc -m -v src/apply_gradtensor_to_b.m \
     -I external/spm_read_nii \
+    -I external/spm_reslice \
     -d bin
 chmod go+rx bin/apply_gradtensor_to_b
 chmod go+rx bin/run_apply_gradtensor_to_b.sh
