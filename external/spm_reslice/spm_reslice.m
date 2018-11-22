@@ -2,7 +2,7 @@ function spm_reslice(P,flags)
 % Rigid body reslicing of images
 % FORMAT spm_reslice(P,flags)
 %
-% MODIFIED 2018-11-06 to remove text and graphical output
+% MODIFIED 2018-11-22 to remove text and graphical output, fix defaults
 %
 % P      - matrix or cell array of filenames {one string per row}
 %          All operations are performed relative to the first image.
@@ -110,17 +110,17 @@ if ~nargin || isempty(P), P = spm_select([2 Inf],'image'); end
 if iscellstr(P), P = char(P);    end
 if ischar(P),    P = spm_vol(P); end
 
-def_flags        = spm_get_defaults('realign.write');
-def_flags.prefix = 'r';
-if nargin < 2
-    flags = def_flags;
-else
-    fnms = fieldnames(def_flags);
-    for i=1:length(fnms)
-        if ~isfield(flags,fnms{i})
-            flags.(fnms{i}) = def_flags.(fnms{i});
-        end
-    end
+clear def_flags
+def_flags.prefix     = 'r';
+def_flags.mask       = 1;
+def_flags.interp     = 4;
+def_flags.wrap       = [0 0 0];
+def_flags.which      = [2 1];
+fnms = fieldnames(def_flags);
+for i=1:length(fnms)
+	if ~isfield(flags,fnms{i})
+		flags.(fnms{i}) = def_flags.(fnms{i});
+	end
 end
 
 if numel(flags.which) == 2

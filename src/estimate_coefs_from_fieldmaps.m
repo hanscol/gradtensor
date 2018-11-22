@@ -58,21 +58,21 @@ if ~exist(out_dir,'dir')
 end
 
 % Unzip field map images
-if strcmp(fieldmap_hz_0_file(end-3:end),'.gz')
-	system(['gunzip -k ' fieldmap_hz_0_file]); 
-	fieldmap_hz_0_file = fieldmap_hz_0_file(end-3:end);
+if strcmp(fieldmap_hz_0_file(end-2:end),'.gz')
+	system(['gunzip -kf ' fieldmap_hz_0_file]); 
+	fieldmap_hz_0_file = fieldmap_hz_0_file(1:end-3);
 end
-if strcmp(fieldmap_hz_x_file(end-3:end),'.gz')
-	system(['gunzip -k ' fieldmap_hz_x_file]); 
-	fieldmap_hz_x_file = fieldmap_hz_x_file(end-3:end);
+if strcmp(fieldmap_hz_x_file(end-2:end),'.gz')
+	system(['gunzip -kf ' fieldmap_hz_x_file]); 
+	fieldmap_hz_x_file = fieldmap_hz_x_file(1:end-3);
 end
-if strcmp(fieldmap_hz_y_file(end-3:end),'.gz')
-	system(['gunzip -k ' fieldmap_hz_y_file]); 
-	fieldmap_hz_y_file = fieldmap_hz_y_file(end-3:end);
+if strcmp(fieldmap_hz_y_file(end-2:end),'.gz')
+	system(['gunzip -kf ' fieldmap_hz_y_file]); 
+	fieldmap_hz_y_file = fieldmap_hz_y_file(1:end-3);
 end
-if strcmp(fieldmap_hz_z_file(end-3:end),'.gz')
-	system(['gunzip -k ' fieldmap_hz_z_file]); 
-	fieldmap_hz_z_file = fieldmap_hz_z_file(end-3:end);
+if strcmp(fieldmap_hz_z_file(end-2:end),'.gz')
+	system(['gunzip -kf ' fieldmap_hz_z_file]); 
+	fieldmap_hz_z_file = fieldmap_hz_z_file(1:end-3);
 end
 
 % Load field maps and verify that geometry matches

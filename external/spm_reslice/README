@@ -5,12 +5,11 @@ SPM12 info: http://www.fil.ion.ucl.ac.uk/spm/software/spm12/
 SPM12 license: See LICENCE.txt
 
 Included bits:
-     spm_reslice.m
+     spm_reslice.m             % Note: local edits
 	    spm_select.m
 		   cfg_getfile.m
 		      matlabbatch/*
 		   @nifti/*            % already in ../spm_read_nii
-		spm_get_defaults.m
 		spm_bsplinc.m*
 		spm_bsplins.m*
 		spm_file.m             % already in ../spm_read_nii
