@@ -146,21 +146,26 @@ for coil = {'X','Y','Z'}
 	w = robustfit(R_scaled,grad(keeps),[],[],'off');
 	w = w./scale_factor';
 	
-	fit = zeros(size(grad));
-	fit(keeps) = R * w;
+	% Visualization
+	if 0
+		
+		fit = zeros(size(grad));
+		fit(keeps) = R * w;
+		
+		% Grab just the nonlinear part for visualization
+		nlw = w;
+		nlw(ell<=1) = 0;
+		nlfit = zeros(size(grad));
+		nlfit(keeps) = R * nlw;
+		
+		% Zero out ex-FOV voxels for visualization
+		grad0 = grad;
+		grad0(~keeps) = 0;
+		
+		% Display and save figure with measured and fitted field
+		fieldfitplot(grad0,fit,nlfit,coil{1},fullfile(out_dir,['fitplot_' coil{1} '.png']));
 	
-	% Grab just the nonlinear part for visualization
-	nlw = w;
-	nlw(ell<=1) = 0;
-	nlfit = zeros(size(grad));
-	nlfit(keeps) = R * nlw;
-	
-	% Zero out ex-FOV voxels for visualization
-	grad0 = grad;
-	grad0(~keeps) = 0;
-	
-	% Display and save figure with measured and fitted field
-	fieldfitplot(grad0,fit,nlfit,coil{1},fullfile(out_dir,['fitplot_' coil{1} '.png']));
+	end
 	
 	% Scale coefs to units of reference radius (or, uT/refradius per mT/m
 	% applied gradient) via gamma, the reference radius, and the estimated shim
@@ -192,7 +197,7 @@ for coil = {'X','Y','Z'}
 	
 end
 
-% L is written to file, but it is also returned as a matrix
+% L is written to file
 Limg_file = compute_L( ...
 	fullfile(out_dir, 'coefs_X.csv'), ...
 	fullfile(out_dir, 'coefs_Y.csv'), ...
