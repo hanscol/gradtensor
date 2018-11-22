@@ -1,4 +1,4 @@
-function [lmatrix_file] = compute_L( ... 
+function [Limg_file] = compute_L( ... 
     coefs_X_file, ...
 	coefs_Y_file, ...
 	coefs_Z_file, ...
@@ -12,9 +12,9 @@ function [lmatrix_file] = compute_L( ...
     [~,XYZ] = spm_read_vols(Vref);
 
     % Load the coefficients of the solid harmonic gradient field approximation
-    [scx,ellx,emx,wx,refradiusx,applied_shimx,coord_geomx] = read_coefs(coefs_X_file);
-    [scy,elly,emy,wy,refradiusy,applied_shimy,coord_geomy] = read_coefs(coefs_Y_file);
-    [scz,ellz,emz,wz,refradiusz,applied_shimz,coord_geomz] = read_coefs(coefs_Z_file);
+    [scx,ellx,emx,wx,refradiusx,~,coord_geomx] = read_coefs(coefs_X_file);
+    [scy,elly,emy,wy,refradiusy,~,coord_geomy] = read_coefs(coefs_Y_file);
+    [scz,ellz,emz,wz,refradiusz,~,coord_geomz] = read_coefs(coefs_Z_file);
     if ~(refradiusx==refradiusy && refradiusy==refradiusz) || ...
             ~(strcmp(coord_geomx,coord_geomy) && strcmp(coord_geomy,coord_geomz))
         error('Mismatch in coefs files')
@@ -91,8 +91,8 @@ function [lmatrix_file] = compute_L( ...
     Vout.dt(1) = spm_type('float32');
     Vout.descrip = 'L matrix';
     %[p,n] = fileparts(Vout.fname);
-    lmatrix_file = fullfile(output_dir,'L.nii');
-    Vout.fname = lmatrix_file;
+    Limg_file = fullfile(output_dir,'L.nii');
+    Vout.fname = Limg_file;
     Vout.n(1) = 1;
     spm_write_vol(Vout,Lxx);
     Vout.n(1) = 2;
@@ -111,5 +111,8 @@ function [lmatrix_file] = compute_L( ...
     spm_write_vol(Vout,Lzy);
     Vout.n(1) = 9;
     spm_write_vol(Vout,Lzz);
+	
+	system(['gzip ' Limg_file]);
+	
 end
 

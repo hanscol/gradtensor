@@ -8,6 +8,7 @@
 mcc -m -v src/fieldmaps_to_gradtensor.m \
     -I src/sh_basis \
     -I external/spm_read_nii \
+	-a src/default_fieldmap_params.csv \
     -d bin
 
 # Grant lenient execute permissions to the matlab executable and runscript
