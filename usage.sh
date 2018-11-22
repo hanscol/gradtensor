@@ -11,7 +11,7 @@ docker run \\
 --mount type=bind,src=<input_dir>,dest=/INPUTS \\
 --mount type=bind,src=<output_dir>,dest=/OUTPUTS \\
 <dockerimage> \\
-/opt/gradtensor/run_fieldmaps_to_gradtensor.sh \\
+/opt/gradtensor/bin/run_fieldmaps_to_gradtensor.sh \\
 /usr/local/MATLAB/MATLAB_Runtime/v92 \\
 fieldmap_hz_0_file /INPUTS/B0_0_Hz.nii.gz \\
 fieldmap_hz_X_file /INPUTS/B0_X_Hz.nii.gz \\
@@ -33,7 +33,7 @@ docker run \\
 --mount type=bind,src=<input_dir>,dest=/INPUTS \\
 --mount type=bind,src=<output_dir>,dest=/OUTPUTS \\
 <dockerimage> \\
-/opt/gradtensor/run_apply_gradtensor_to_b.sh \\
+/opt/gradtensor/bin/run_apply_gradtensor_to_b.sh \\
 /usr/local/MATLAB/MATLAB_Runtime/v92 \\
 Limg_file /OUTPUTS/L.nii.gz \\
 refimg_file /INPUTS/dti.nii.gz \\
