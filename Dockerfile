@@ -15,7 +15,7 @@ RUN apt-get update && \
 
 # Copy the files we need
 RUN mkdir /opt/gradtensor
-COPY bin usage.sh LICENSE.txt /opt/gradtensor
+COPY bin usage.sh LICENSE.txt /opt/gradtensor/
 
 # Create input/output directories for binding
 RUN mkdir /INPUTS && mkdir /OUTPUTS
