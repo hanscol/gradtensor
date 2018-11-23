@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y wget unzip && \
 
 # Other system packages
 RUN apt-get update && \
-    apt-get install -y openjdk-8-jre
+    apt-get install -y openjdk-8-jre libxt6
 
 # Copy the files we need
 COPY . /opt/gradtensor
