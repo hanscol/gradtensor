@@ -5,10 +5,12 @@ Usage:
 Create gradient coil tensor image from field map set. All options starting
 with fieldmap_hz_0_file have the specified defaults and can be omitted:
 
-docker run \
---mount type=bind,src=<input_dir>,dest=/INPUTS \
---mount type=bind,src=<output_dir>,dest=/OUTPUTS \
-<dockerimage> \
+singularity run \
+--cleanenv \
+--home <input_dir> \
+--bind <input_dir>:/INPUTS \
+--bind <output_dir>:/OUTPUTS \
+<singularity_image> \
 /opt/gradtensor/bin/run_fieldmaps_to_gradtensor.sh \
 /usr/local/MATLAB/MATLAB_Runtime/v92 \
 fieldmap_hz_0_file /INPUTS/B0_0_Hz.nii.gz \
@@ -28,13 +30,15 @@ Given a gradient coil tensor image, compute adjusted b-values and vectors
 for a specific set of diffusion-weighted images. The options from Limg_file on
 are optional and have the specified defaults:
 
-docker run \
---mount type=bind,src=<input_dir>,dest=/INPUTS \
---mount type=bind,src=<output_dir>,dest=/OUTPUTS \
-<dockerimage> \
+singularity run \
+--cleanenv \
+--home <input_dir> \
+--bind <input_dir>:/INPUTS \
+--bind <output_dir>:/OUTPUTS \
+<singularity_image> \
 /opt/gradtensor/bin/run_apply_gradtensor_to_b.sh \
 /usr/local/MATLAB/MATLAB_Runtime/v92 \
-Limg_file /OUTPUTS/L.nii.gz \
+Limg_file /INPUTS/L.nii.gz \
 refimg_file /INPUTS/dti.nii.gz \
 bval_file /INPUTS/bval.txt \
 bvec_file /INPUTS/bvec.txt \
