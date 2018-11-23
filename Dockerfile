@@ -20,4 +20,4 @@ COPY . /opt/gradtensor
 RUN mkdir /INPUTS && mkdir /OUTPUTS
 
 # Default command shows usage for the two modules
-CMD /bin/bash /opt/gradtensor/usage.sh
+CMD /bin/bash -c "cat /opt/gradtensor/usage.txt"
