@@ -1,6 +1,6 @@
 docker run \
---mount type=bind,src=`pwd`/INPUTS,dest=/INPUTS \
---mount type=bind,src=`pwd`/OUTPUTS,dest=/OUTPUTS \
+--mount type=bind,src=`pwd`/INPUTS,dst=/INPUTS \
+--mount type=bind,src=`pwd`/OUTPUTS,dst=/OUTPUTS \
 gradtensor \
 /opt/gradtensor/bin/run_fieldmaps_to_gradtensor.sh \
 /usr/local/MATLAB/MATLAB_Runtime/v92 \
@@ -16,8 +16,8 @@ out_dir /OUTPUTS
 
 
 docker run \
---mount type=bind,src=`pwd`/INPUTS,dest=/INPUTS \
---mount type=bind,src=`pwd`/OUTPUTS,dest=/OUTPUTS \
+--mount type=bind,src=`pwd`/INPUTS,dst=/INPUTS \
+--mount type=bind,src=`pwd`/OUTPUTS,dst=/OUTPUTS \
 gradtensor \
 /opt/gradtensor/bin/run_apply_gradtensor_to_b.sh \
 /usr/local/MATLAB/MATLAB_Runtime/v92 \
