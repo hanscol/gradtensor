@@ -1,7 +1,12 @@
 .git
 .gitignore
 *
-!bin
 !Dockerfile
-!usage.sh
 !LICENSE.txt
+!README.md
+!bin
+!build.sh
+!compile_matlab.sh
+!external
+!src
+!usage.sh

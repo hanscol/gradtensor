@@ -14,9 +14,7 @@ RUN apt-get update && \
     apt-get install -y openjdk-8-jre
 
 # Copy the files we need
-RUN mkdir /opt/gradtensor
-COPY bin /opt/gradtensor/bin
-COPY usage.sh LICENSE.txt /opt/gradtensor/
+COPY . /opt/gradtensor
 
 # Create input/output directories for binding
 RUN mkdir /INPUTS && mkdir /OUTPUTS
