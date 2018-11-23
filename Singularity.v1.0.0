@@ -14,12 +14,12 @@ TO RUN
 See the associated YAML files for info about inputs and running the container
 
 %files
-  bin /opt/gradtensor/bin
-  src /opt/gradtensor/src
-  external /opt/gradtensor/external
-  LICENSE.txt /opt/gradtensor/LICENSE.txt
-  README.md /opt/gradtensor/README.md
-  usage-singularity.txt /opt/gradtensor/usage-singularity.txt
+  bin /opt/gradtensor
+  src /opt/gradtensor
+  external /opt/gradtensor
+  LICENSE.txt /opt/gradtensor
+  README.md /opt/gradtensor
+  usage-singularity.txt /opt/gradtensor
  
 %labels
   Maintainer baxter.rogers@vanderbilt.edu
