@@ -26,7 +26,7 @@ See the associated YAML files for info about inputs and running the container
 
 %post
   apt-get update
-  apt-get install -y wget unzip openjdk-8-jre
+  apt-get install -y wget unzip openjdk-8-jre libxt6
   
   # Download the Matlab Compiled Runtime installer, install, clean up
   mkdir /MCR
