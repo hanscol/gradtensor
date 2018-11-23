@@ -112,7 +112,7 @@ function [Limg_file] = compute_L( ...
     Vout.n(1) = 9;
     spm_write_vol(Vout,Lzz);
 	
-	system(['gzip ' Limg_file]);
+	system(['gzip -f ' Limg_file]);
 	
 end
 

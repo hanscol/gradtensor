@@ -21,7 +21,7 @@ docker run \
 gradtensor \
 /opt/gradtensor/bin/run_apply_gradtensor_to_b.sh \
 /usr/local/MATLAB/MATLAB_Runtime/v92 \
-Limg_file /INPUTS/L.nii.gz \
+Limg_file /OUTPUTS/L.nii.gz \
 refimg_file /INPUTS/dti.nii.gz \
 bval_file /INPUTS/bval.txt \
 bvec_file /INPUTS/bvec.txt \
