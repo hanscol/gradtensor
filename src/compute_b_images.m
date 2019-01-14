@@ -116,8 +116,9 @@ for b = 1:nb
 	for n = 1:3
 		Vout.n(1) = n;
 		spm_write_vol(Vout,reshape(adjbvec(:,n,b),Vout.dim));
-    end
-    system(['gzip -f ' Vout.fname]);
+		system(['gzip -f ' Vout.fname]);
+    	end
+    
 	
 end
 
