@@ -36,8 +36,8 @@ flags = struct( ...
 	'prefix','r' ...
 	);
 spm_reslice({refimg_file; Limg_file},flags);
-[~,n,e] = fileparts(Limg_file);
-rLimg_file = fullfile(out_dir,['r' n e]);
+[d,n,e] = fileparts(Limg_file);
+rLimg_file = fullfile(d,['r' n e]);
 
 % Load the grad tensor and reshape. Initial dimensions are x,y,z,e where e
 % is Lxx, Lxy, Lxz, Lyx, Lyy, etc. We need to reshape to i,j,v where Lij is
@@ -116,8 +116,8 @@ for b = 1:nb
 	for n = 1:3
 		Vout.n(1) = n;
 		spm_write_vol(Vout,reshape(adjbvec(:,n,b),Vout.dim));
-		system(['gzip -f ' Vout.fname]);
-	end
+    end
+    system(['gzip -f ' Vout.fname]);
 	
 end
 
